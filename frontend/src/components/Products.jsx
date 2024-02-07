@@ -24,9 +24,9 @@ const Products = () => {
                   <div className='w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-2 py-3'>
                      <span className='uppercase tracking-wide no-underline hover:no-underline font-bold text-xl '>
                         Products
-                        <hr  className="mt-2"/>
+                        <hr className='mt-2' />
                      </span>
-                     <div className='flex items-center'>
+                     <div className='flex items-center sm:flex-wrap'>
                         <Categories />
                      </div>
                   </div>

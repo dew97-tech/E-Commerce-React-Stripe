@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { Button } from "./ui/button";
+import { toast } from "sonner";
 import { ProductContext } from "../context/ProductContext";
 
 const CartDetails = () => {
@@ -13,6 +14,10 @@ const CartDetails = () => {
    };
 
    const handleRemoveItem = (productId) => {
+      toast.warning("Item removed from cart", {
+         position: "bottom-right",
+         dismissible: true,
+      });
       const updatedCart = cart.filter((item) => item.id !== productId);
       setCart(updatedCart); // Update the cart state
       filterProductsBySearch(); // Refresh the filtered products
@@ -36,7 +41,7 @@ const CartDetails = () => {
    };
 
    return (
-      <div className='w-full max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-md dark:bg-gray-800 mt-auto'>
+      <div className='w-full max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-md dark:bg-gray-800 my-auto'>
          <h2 className='text-3xl font-semibold text-gray-900 dark:text-white mb-10'>Shopping Cart</h2>
          {cart.map((item) => (
             <div key={item.id} className='mt-4 space-y-4'>

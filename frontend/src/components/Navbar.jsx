@@ -64,7 +64,7 @@ const Navbar = () => {
                /* Login Button */
                <Link
                   to='/sign-in'
-                  className='px-5 py-3 bg-indigo-500 text-md font-medium text-white rounded-lg hover:bg-blue-500 duration-300'
+                  className='px-5 py-2 bg-indigo-500 text-md font-medium text-white rounded-lg hover:bg-blue-500 duration-300'
                >
                   Sign In
                </Link>
