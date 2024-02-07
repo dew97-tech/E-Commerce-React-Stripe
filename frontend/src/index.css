@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.custom-transition {
+   transition: opacity 1s ease-in-out;
+}
+
+.custom-transition-opacity {
+   opacity: 0;
+}
+/* footer {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+} */
