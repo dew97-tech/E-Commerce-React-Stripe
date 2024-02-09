@@ -42,6 +42,11 @@ app.post("/checkout", async (req, res) => {
    );
 });
 
+app.get("/payment-details/:sessionId", async (req, res) => {
+   const session = await stripe.checkout.sessions.retrieve(req.params.sessionId);
+   res.send(session);
+});
+
 app.listen(4000, () => {
    console.log("Server is running on port 4000");
 });

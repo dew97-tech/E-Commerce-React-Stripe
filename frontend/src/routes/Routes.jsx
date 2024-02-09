@@ -9,6 +9,8 @@ import CartDetails from "../components/CartDetails";
 import SignInPage from "@/components/Sign-In";
 import Success from "@/components/Success";
 import Error from "@/components/Error";
+import UserProfile from "@/components/Profile";
+import Orders from "@/components/Orders";
 
 const router = createBrowserRouter([
    {
@@ -73,6 +75,22 @@ const router = createBrowserRouter([
       element: (
          <Layout>
             <Error />
+         </Layout>
+      ),
+   },
+   {
+      path: "/user-profile",
+      element: (
+         <Layout>
+            <UserProfile />
+         </Layout>
+      ),
+   },
+   {
+      path: "/orders",
+      element: (
+         <Layout>
+            <Orders />
          </Layout>
       ),
    },

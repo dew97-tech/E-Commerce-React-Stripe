@@ -1,13 +1,14 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useUser, UserButton } from "@clerk/clerk-react";
+import { useUser, useAuth, SignOutButton } from "@clerk/clerk-react";
 import { ProductContext } from "../context/ProductContext";
 import { ThemeContext } from "../context/ThemeContext";
 import Cart from "./Cart";
 const Navbar = () => {
    const { handleToggle } = useContext(ThemeContext);
    const { setQueryProducts, filterProductsBySearch, queryProducts } = useContext(ProductContext);
-   const { isSignedIn } = useUser();
+   const { isSignedIn, user } = useUser();
+   const { sessionId } = useAuth();
 
    const handleSearch = (e) => {
       setQueryProducts(e.target.value);
@@ -56,9 +57,41 @@ const Navbar = () => {
             {isSignedIn ? (
                <>
                   <Cart />
-                  <div className='ml-auto'>
-                     <UserButton afterSignOutUrl='/' />
-                  </div>
+                  {user && (
+                     <div className='ml-auto'>
+                        <div className='dropdown dropdown-end'>
+                           <div tabIndex={0} role='button' className='btn btn-ghost btn-circle avatar'>
+                              <div className='w-10 rounded-full'>
+                                 <img alt={user?.fullName} src={user?.imageUrl} />
+                              </div>
+                           </div>
+                           <ul
+                              tabIndex={0}
+                              className='menu menu-sm dropdown-content mt-3 z-[33] p-2 shadow bg-base-100 rounded-box w-52 border border-b-2 border-slate-200'
+                           >
+                              <li>
+                                 <p className='justify-between font-medium pointer-events-none'>{user?.fullName}</p>
+                              </li>
+                              <div className='divider m-0 p-0'></div>
+                              <li>
+                                 <Link to='/orders' className='justify-between'>
+                                    Orders
+                                 </Link>
+                              </li>
+                              <li>
+                                 <Link to='/user-profile' className='justify-between'>
+                                    Profile
+                                 </Link>
+                              </li>
+                              <div className='mr-auto'>
+                                 <li>
+                                    <SignOutButton signOutOptions={sessionId} />
+                                 </li>
+                              </div>
+                           </ul>
+                        </div>
+                     </div>
+                  )}
                </>
             ) : (
                /* Login Button */
