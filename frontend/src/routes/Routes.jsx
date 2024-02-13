@@ -11,6 +11,7 @@ import Success from "@/components/Success";
 import Error from "@/components/Error";
 import UserProfile from "@/components/Profile";
 import Orders from "@/components/Orders";
+import SignUp from "@/components/sign-up";
 
 const router = createBrowserRouter([
    {
@@ -91,6 +92,14 @@ const router = createBrowserRouter([
       element: (
          <Layout>
             <Orders />
+         </Layout>
+      ),
+   },
+   {
+      path: "/sign-up",
+      element: (
+         <Layout>
+            <SignUp />
          </Layout>
       ),
    },
