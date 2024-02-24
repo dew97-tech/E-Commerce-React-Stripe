@@ -24,17 +24,17 @@ const Navbar = () => {
                <img src='assets/images/logo.png' alt='logo' className='w-10 h-10' />
                Shop Now
             </Link>
+            <span>|</span>
             {isSignedIn && (
                <>
-                  <span>|</span>
                   <Link to='/products' className='text-xl me-2 font-thin'>
                      <span>Products</span>
                   </Link>
-                  <Link to='/about' className='text-xl me-2 font-thin'>
-                     <span>About</span>
-                  </Link>
                </>
             )}
+            <Link to='/about' className='text-xl me-2 font-thin'>
+               <span>About</span>
+            </Link>
          </div>
 
          <div className='ml-auto flex items-center gap-2'>

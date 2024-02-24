@@ -12,16 +12,13 @@ import Error from "@/components/Error";
 import UserProfile from "@/components/Profile";
 import Orders from "@/components/Orders";
 import SignUp from "@/components/sign-up";
+import ErrorPage from "@/components/ErrorPage";
+import App from "@/App";
 
 const router = createBrowserRouter([
    {
       path: "/",
-      element: (
-         <Layout>
-            <Hero />
-            <Products />
-         </Layout>
-      ),
+      element: <App />,
    },
    {
       path: "/products",
@@ -100,6 +97,15 @@ const router = createBrowserRouter([
       element: (
          <Layout>
             <SignUp />
+         </Layout>
+      ),
+   },
+   // 404 page
+   {
+      path: "*",
+      element: (
+         <Layout>
+            <ErrorPage />
          </Layout>
       ),
    },

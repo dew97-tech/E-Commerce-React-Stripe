@@ -1,9 +1,13 @@
 import * as React from "react";
 import { SignedOut, SignedIn, SignInButton } from "@clerk/clerk-react";
+import { Separator } from "./components/ui/separator";
 import Layout from "./layout";
 import Hero from "./components/Hero";
 import Products from "./components/Products";
 import Featured from "./components/Featured";
+import Quality from "./components/Quality";
+import TrustedBrands from "./components/TrustedBrands";
+import Gallery from "./components/Gallery";
 
 function App() {
    return (
@@ -11,14 +15,24 @@ function App() {
       // If user is signed in they can see the Hero, Products, and Featured sections.
       <Layout>
          <SignedOut>
-            {/* Hero */}
             <Hero />
+            <Separator className='border' />
+            <Quality />
+            <Separator className='border' />
+            <TrustedBrands />
+            <Separator className='border' />
+            <Gallery />
          </SignedOut>
          <SignedIn>
-            {/* Products */}
+            <Hero />
+            <Separator className='border' />
             <Products />
-            {/* Featured */}
-            <Featured />
+            <Separator className='border' />
+            <Quality />
+            <Separator className='border' />
+            <TrustedBrands />
+            <Separator className='border' />
+            <Gallery />
          </SignedIn>
       </Layout>
    );
