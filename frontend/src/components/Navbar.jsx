@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useUser, useAuth, SignOutButton } from "@clerk/clerk-react";
 import { ProductContext } from "../context/ProductContext";
 import { ThemeContext } from "../context/ThemeContext";
+import { IoMdLogIn } from "react-icons/io";
 import Cart from "./Cart";
 const Navbar = () => {
    const { handleToggle } = useContext(ThemeContext);
@@ -18,23 +19,25 @@ const Navbar = () => {
       filterProductsBySearch();
    }, [queryProducts]);
    return (
-      <div className='navbar flex items-center justify-between border-b-2 mb-2'>
+      <div className='navbar flex items-center justify-between mb-2'>
          <div className='flex gap-2 items-center justify-start'>
             <Link to='/' className='flex items-center justify-start gap-2 mx-2 text-xl font-medium uppercase'>
-               <img src='assets/images/logo.png' alt='logo' className='w-10 h-10' />
-               Shop Now
+               <img src='assets/images/logo.png' alt='logo' className='w-10 h-10 rounded-full' />
             </Link>
-            <span>|</span>
-            {isSignedIn && (
-               <>
-                  <Link to='/products' className='text-xl me-2 font-thin'>
-                     <span>Products</span>
-                  </Link>
-               </>
-            )}
-            <Link to='/about' className='text-xl me-2 font-thin'>
-               <span>About</span>
-            </Link>
+            <nav className='hidden lg:flex items-center gap-4'>
+               <Link className='font-semibold hover:text-indigo-700 transition-all duration-300' to='/'>
+                  Home
+               </Link>
+               <Link className='font-semibold hover:text-indigo-700 transition-all duration-300' to='/products'>
+                  Shop
+               </Link>
+               <Link className='font-semibold hover:text-indigo-700 transition-all duration-300' to='/about'>
+                  About
+               </Link>
+               <Link className='font-semibold hover:text-indigo-700 transition-all duration-300' to='/contact'>
+                  Contact
+               </Link>
+            </nav>
          </div>
 
          <div className='ml-auto flex items-center gap-2'>
@@ -95,12 +98,15 @@ const Navbar = () => {
                </>
             ) : (
                /* Login Button */
-               <Link
-                  to='/sign-in'
-                  className='px-5 py-2 bg-indigo-500 text-md font-medium text-white rounded-lg hover:bg-blue-500 duration-300'
-               >
-                  Sign In
-               </Link>
+               <>
+                  <Link
+                     to='/sign-in'
+                     className='text-primary font-semibold hover:text-indigo-700 transition-all duration-300 flex items-center'
+                  >
+                     Sign-in
+                     <IoMdLogIn className='ml-1' />
+                  </Link>
+               </>
             )}
          </div>
       </div>

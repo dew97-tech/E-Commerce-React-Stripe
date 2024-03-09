@@ -6,6 +6,7 @@ const Categories = () => {
 
    const handleCategoryClick = (category) => {
       setSelectedCategory(category);
+      // console.log(category);
    };
 
    return (
@@ -21,13 +22,13 @@ const Categories = () => {
             </button>
             {categories.map((category, index) => (
                <button
-                  key={index}
-                  onClick={() => handleCategoryClick(category)}
+                  key={category?.id}
+                  onClick={() => handleCategoryClick(category?.attributes?.name)}
                   className={`inline-flex py-2 px-5 rounded-lg items-center  hover:bg-blue-600 hover:text-white focus:outline-none transition-all duration-300 capitalize font-medium ${
-                     selectedCategory === category ? "bg-primary text-white" : "bg-gray-200"
+                     selectedCategory === category?.attributes?.name ? "bg-primary text-white" : "bg-gray-200"
                   }`}
                >
-                  {category}
+                  {category?.attributes?.name}
                </button>
             ))}
          </div>

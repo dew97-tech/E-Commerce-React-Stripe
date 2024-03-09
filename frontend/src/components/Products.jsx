@@ -49,14 +49,17 @@ const Products = () => {
                            <Link to={`/products/${product.id}`} className='cursor-pointer'>
                               <img
                                  className='object-contain object-center w-full h-48 mb-4 rounded-lg dark:bg-gray-800'
-                                 src={product.image}
-                                 alt={product.title}
+                                 src={
+                                    import.meta.env.VITE_STRAPI_UPLOADS_URL +
+                                    product?.attributes?.image?.data?.attributes.url
+                                 }
+                                 alt={product?.attributes?.title}
                               />
                               <div className='flex items-center justify-between'>
-                                 <p className='font-bold'>{product.title}</p>
+                                 <p className='font-bold'>{product?.attributes?.title}</p>
                               </div>
 
-                              <p className='mt-2'>{`£${product.price.toFixed(2)}`}</p>
+                              <p className='mt-2'>{`£${product?.attributes?.price}`}</p>
                            </Link>
                         )}
                      </div>

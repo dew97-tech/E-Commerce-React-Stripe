@@ -13,6 +13,7 @@ import UserProfile from "@/components/Profile";
 import Orders from "@/components/Orders";
 import SignUp from "@/components/sign-up";
 import ErrorPage from "@/components/ErrorPage";
+import Contact from "@/components/Contact"; // Make sure the import path is correct
 import App from "@/App";
 
 const router = createBrowserRouter([
@@ -97,6 +98,14 @@ const router = createBrowserRouter([
       element: (
          <Layout>
             <SignUp />
+         </Layout>
+      ),
+   },
+   {
+      path: "/contact",
+      element: (
+         <Layout>
+            <Contact />
          </Layout>
       ),
    },

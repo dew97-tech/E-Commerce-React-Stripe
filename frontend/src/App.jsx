@@ -8,6 +8,7 @@ import Featured from "./components/Featured";
 import Quality from "./components/Quality";
 import TrustedBrands from "./components/TrustedBrands";
 import Gallery from "./components/Gallery";
+import Devs from "./components/Devs";
 
 function App() {
    return (
@@ -16,23 +17,18 @@ function App() {
       <Layout>
          <SignedOut>
             <Hero />
-            <Separator className='border' />
             <Quality />
-            <Separator className='border' />
+            <Featured />
             <TrustedBrands />
-            <Separator className='border' />
-            <Gallery />
+            <Devs />
          </SignedOut>
          <SignedIn>
             <Hero />
-            <Separator className='border' />
-            <Products />
-            <Separator className='border' />
             <Quality />
-            <Separator className='border' />
+            <Featured />
             <TrustedBrands />
-            <Separator className='border' />
-            <Gallery />
+            <Devs />
+            {/* <Contact /> */}
          </SignedIn>
       </Layout>
    );

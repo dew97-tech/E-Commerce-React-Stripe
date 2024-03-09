@@ -19,12 +19,13 @@ export const ProductProvider = ({ children }) => {
    useEffect(() => {
       async function fetchData() {
          try {
-            const productsRes = await fetch("https://fakestoreapi.com/products");
-            const categoriesRes = await fetch("https://fakestoreapi.com/products/categories");
+            const productsRes = await fetch("http://localhost:1337/api/products?populate=*");
+            const categoriesRes = await fetch("http://localhost:1337/api/categories?populate=*");
 
-            const productsData = await productsRes.json();
-            const categoriesData = await categoriesRes.json();
-
+            const { data: productsData } = await productsRes.json();
+            const { data: categoriesData } = await categoriesRes.json();
+            // console.log("productsData", productsData);
+            // console.log("categoriesData", categoriesData);
             setProducts(productsData);
             setFilteredProducts(productsData);
             setCategories(categoriesData);
@@ -40,12 +41,18 @@ export const ProductProvider = ({ children }) => {
       filterProductsByCategoryAndSearch();
    }, [queryProducts, selectedCategory]);
 
+   // This function filters the products by category
    const getProductsByCategory = (category) => {
-      return products.filter((product) => product.category === category);
+      // The filter method is used to create a new array with all products that pass the test implemented by the provided function
+      return products.filter((product) =>
+         product?.attributes?.categories?.data.some((cat) => cat?.attributes?.name === category)
+      );
    };
 
+   // This function retrieves a product by its ID
    const getProductById = (productId) => {
-      return products.find((product) => product.id === productId);
+      // In this case, the test is whether the product's id matches the provided productId
+      return products.find((product) => product?.id === productId);
    };
 
    const filterProductsByCategoryAndSearch = () => {
@@ -88,7 +95,15 @@ export const ProductProvider = ({ children }) => {
 
    // Function to calculate the total price of items in the cart
    const calculateTotalPrice = () => {
-      return cart.reduce((total, item) => total + item.quantity * item.price, 0).toFixed(2);
+      return cart
+         .reduce((total, item) => {
+            // Ensure that item.price and item.quantity are valid numbers
+            const itemPrice = typeof item.attributes?.price === "number" ? item.attributes.price : 0;
+            const itemQuantity = typeof item.quantity === "number" ? item.quantity : 0;
+            // Calculate the subtotal for the current item and add it to the total
+            return total + itemPrice * itemQuantity;
+         }, 0)
+         .toFixed(2); // Convert the total to a string with 2 decimal places
    };
 
    // Context value

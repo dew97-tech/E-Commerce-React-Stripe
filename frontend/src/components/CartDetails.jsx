@@ -3,6 +3,7 @@ import { Button } from "./ui/button";
 import { toast } from "sonner";
 import { ProductContext } from "../context/ProductContext";
 import EmptyCart from "./EmptyCart";
+import useImage from "@/hooks/useImage";
 
 const CartDetails = () => {
    const { cart, clearCart, products, filterProductsBySearch, setCart, calculateTotalPrice } =
@@ -52,15 +53,17 @@ const CartDetails = () => {
                   <div key={item.id} className='mt-4 space-y-4'>
                      <div className='grid grid-cols-6 gap-4 p-3 bg-gray-100 dark:bg-gray-700 rounded-lg items-center hover:shadow-lg duration-500 animate-out'>
                         <img
-                           alt={item.title}
+                           alt={item.attributes.title}
                            className='aspect-square rounded-md object-contain col-span-1'
                            height='64'
-                           src={item.image}
+                           src={useImage(item.attributes.image?.data?.attributes?.url)}
                            width='64'
                         />
                         <div className='grid gap-1 col-span-2'>
-                           <h3 className='text-md font-medium text-gray-900 dark:text-white'>{item.title}</h3>
-                           <p className='text-sm text-gray-500 dark:text-gray-400'>{item.category}</p>
+                           <h3 className='text-md font-medium text-gray-900 dark:text-white'>
+                              {item.attributes.title}
+                           </h3>
+                           <p className='text-sm text-gray-500 dark:text-gray-400'>{item.attributes.category}</p>
                         </div>
                         <div className='flex items-center space-x-2 col-span-1'>
                            <Button
@@ -82,7 +85,7 @@ const CartDetails = () => {
                            </Button>
                         </div>
                         <p className='text-md font-medium text-gray-900 dark:text-white col-span-1'>
-                           ${item.price * item.quantity}
+                           ${item.attributes.price * item.quantity}
                         </p>
                         <button className='btn w-2/4 btn-error' size='icon' onClick={() => handleRemoveItem(item.id)}>
                            <TrashIcon className='h-4 w-4 hover:animate-bounce duration-700' />

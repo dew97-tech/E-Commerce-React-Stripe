@@ -37,19 +37,14 @@ const TrustedBrands = () => {
       },
    ];
    return (
-      <section className='text-gray-600 body-font'>
+      <section className='body-font'>
          <div className='container px-5 py-24 mx-auto'>
-            <div className='text-center mb-20'>
-               <h1 className='sm:text-3xl text-2xl font-medium title-font text-gray-900 mb-4'>
-                  We have various products from different brands
-               </h1>
-               <p className='text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s'>
+            <div className='text-center mb-10'>
+               <h2 className='text-3xl font-bold tracking-tighter md:text-4xl/tight'>OUR PARTNERS</h2>
+               <p className='mx-auto max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400'>
                   Whatever you need, we have it. We have a wide range of products from different brands. We have the
                   best deals and the best prices.
                </p>
-               <div className='flex mt-6 justify-center'>
-                  <div className='w-16 h-1 rounded-full bg-indigo-500 inline-flex'></div>
-               </div>
             </div>
             <Carousel
                plugins={[
@@ -75,8 +70,8 @@ const TrustedBrands = () => {
                      </CarouselItem>
                   ))}
                </CarouselContent>
-               <CarouselPrevious />
-               <CarouselNext />
+               <CarouselPrevious variant='default' className='text-white' />
+               <CarouselNext variant='default' className='text-white' />
             </Carousel>
          </div>
       </section>

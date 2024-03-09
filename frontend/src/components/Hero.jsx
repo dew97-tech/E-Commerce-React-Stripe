@@ -1,39 +1,52 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ProductContext } from "../context/ProductContext";
 import Loading from "./Loading";
+import useFetch from "@/hooks/useFetch";
+import useImage from "@/hooks/useImage";
+import { Button } from "@/components/ui/button";
 
 const Hero = () => {
-   const [activeSlide, setActiveSlide] = useState(0);
-   const { products } = useContext(ProductContext);
    const [randomProduct, setRandomProduct] = useState(null);
-
+   const { data } = useFetch("/products?populate=image");
+   // it will run when the data is fetched
    useEffect(() => {
-      if (products.length) {
-         setRandomProduct(products[activeSlide]);
+      if (data && !randomProduct) {
+         const randomIndex = Math.floor(Math.random() * data.length);
+         setRandomProduct(data[randomIndex]);
       }
-      setActiveSlide(Math.floor(Math.random() * products.length));
-   }, [products]);
+   }, [data, randomProduct]);
+
+   const imageUrl = useImage(randomProduct?.attributes?.image?.data?.attributes?.url);
 
    return (
       <>
-         <section className='container mx-auto flex px-5 py-24 md:flex-row flex-col items-center lg:h-screen'>
+         <section className='container mx-auto my-auto flex px-5 py-24 md:flex-row flex-col items-center lg:h-screen'>
             <div className='container px-4 md:px-6'>
                <div className='grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]'>
                   <div className='my-auto'>
-                     <div className='space-y-2'>
+                     <div className='space-y-5'>
                         <h1 className='text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none mb-3'>
                            Welcome to <span className='text-primary'>Shop Now</span>
                         </h1>
-                        <p className='max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400'>
+                        <p className='max-w-[600px] text-gray-600 md:text-xl dark:text-gray-400 lowercase'>
                            We cover your computer needs, from the latest gadgets to the best accessories. We have a wide
                            range of products to choose from. We have the best deals and the best prices.
                         </p>
-                        <div className='mt-20'>
-                           <Link to='/products'>
-                              <button className='inline-flex text-white bg-primary border-0 py-2 px-6 focus:outline-none hover:bg-blue-600 rounded text-lg hover:transition-all duration-300'>
-                                 Browse
-                              </button>
+                        <div className='flex flex-col gap-4 min-[400px]:flex-row'>
+                           <Button variant='default' className='text-white p-5'>
+                              <Link
+                                 className='font-semibold'
+                                 to='/products'
+                              >
+                                 Shop Now
+                              </Link>
+                           </Button>
+                           <Link
+                              className='inline-flex h-10 items-center justify-center rounded-md border border-gray-200 border-gray-200 bg-white px-8 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-800 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300'
+                              to='/about'
+                           >
+                              Learn More
                            </Link>
                         </div>
                      </div>
@@ -44,7 +57,7 @@ const Hero = () => {
                         alt='hero'
                         height='550'
                         width='550'
-                        src={randomProduct.image}
+                        src={imageUrl}
                      />
                   ) : (
                      <Loading />
