@@ -16,6 +16,7 @@ The project is divided into two main directories:
 
 -  `frontend/`: Contains the React application.
 -  `backend/`: Handles payments with Stripe.
+-  `api/shop-now`: CMS for products/categories/orders.
 
 ## Getting Started
 
