@@ -17,8 +17,9 @@ const ProductDetails = () => {
    const { addToCart } = useContext(ProductContext);
    const { isSignedIn } = useUser();
 
-   const { data, isLoading } = useFetch(`/products?filters[id][$eq]=${id}&populate=image&populate=categories`);
+   const { data, loading } = useFetch(`/products?filters[id][$eq]=${id}&populate=image&populate=categories`);
    const product = data?.[0];
+   // imageUrl is a custom hook that returns the image URL
    const imageUrl = useImage(product?.attributes?.image?.data?.attributes?.url);
 
    const [rating, setRating] = useState(0);
@@ -37,7 +38,7 @@ const ProductDetails = () => {
       });
    };
 
-   if (isLoading) {
+   if (loading) {
       return <Loading />;
    }
 

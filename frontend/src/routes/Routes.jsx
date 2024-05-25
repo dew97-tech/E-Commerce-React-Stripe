@@ -15,6 +15,7 @@ import SignUp from "@/components/sign-up";
 import ErrorPage from "@/components/ErrorPage";
 import Contact from "@/components/Contact"; // Make sure the import path is correct
 import App from "@/App";
+import FilterProducts from "@/components/FilterProducts";
 
 const router = createBrowserRouter([
    {
@@ -25,7 +26,7 @@ const router = createBrowserRouter([
       path: "/products",
       element: (
          <Layout>
-            <Products />
+            <FilterProducts />
          </Layout>
       ),
    },

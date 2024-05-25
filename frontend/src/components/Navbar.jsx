@@ -19,7 +19,7 @@ const Navbar = () => {
       filterProductsBySearch();
    }, [queryProducts]);
    return (
-      <div className='navbar flex items-center justify-between mb-2'>
+      <div className='navbar flex items-center justify-between mb-2 sticky top-0 bg-white shadow-sm z-30'>
          <div className='flex gap-2 items-center justify-start'>
             <Link to='/' className='flex items-center justify-start gap-2 mx-2 text-xl font-medium uppercase'>
                <img src='assets/images/logo.png' alt='logo' className='w-10 h-10 rounded-full' />

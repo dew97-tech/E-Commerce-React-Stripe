@@ -22,14 +22,14 @@ export const ProductProvider = ({ children }) => {
             const productsRes = await fetch("http://localhost:1337/api/products?populate=*");
             const categoriesRes = await fetch("http://localhost:1337/api/categories?populate=*");
 
-            const { data: productsData } = await productsRes.json();
+            const { data: productsData, loading } = await productsRes.json();
             const { data: categoriesData } = await categoriesRes.json();
             // console.log("productsData", productsData);
             // console.log("categoriesData", categoriesData);
             setProducts(productsData);
             setFilteredProducts(productsData);
             setCategories(categoriesData);
-            setIsLoading(false);
+            setIsLoading(loading);
          } catch (error) {
             console.error("Error fetching data:", error);
          }
