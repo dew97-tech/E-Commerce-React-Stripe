@@ -66,19 +66,22 @@ const FilterProducts = () => {
                            onChange={() => handleCategoryClick(category?.attributes?.name)}
                            onClick={() => handleCategoryClick(category?.attributes?.name)}
                         />
-                        <label className='text-sm font-medium capitalize' htmlFor={`category-${category?.attributes?.name}`}>
+                        <label
+                           className='text-sm font-medium capitalize'
+                           htmlFor={`category-${category?.attributes?.name}`}
+                        >
                            {category?.attributes?.name}
                         </label>
                      </div>
                   ))}
                </div>
             </div>
-            <div className='mb-8'>
+            {/* <div className='mb-8'>
                <h2 className='mb-4 text-xl font-semibold'>Price Range</h2>
                <div className='flex'>
                   <Input className='w-full' type='range' />
                </div>
-            </div>
+            </div> */}
             <div>
                <h2 className='mb-4 text-xl font-semibold'>Rating</h2>
                <div className='space-y-2'>
@@ -107,11 +110,14 @@ const FilterProducts = () => {
                      </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className='bg-white border border-gray-300 shadow-md rounded-md'>
-                     <DropdownMenuItem className='hover:bg-gray-100 p-2' onSelect={() => handleSortChange("price-asc")}>
+                     <DropdownMenuItem
+                        className='hover:bg-gray-100 p-2 font-semibold'
+                        onSelect={() => handleSortChange("price-asc")}
+                     >
                         Price: Low to High
                      </DropdownMenuItem>
                      <DropdownMenuItem
-                        className='hover:bg-gray-100 p-2'
+                        className='hover:bg-gray-100 p-2 font-semibold'
                         onSelect={() => handleSortChange("price-desc")}
                      >
                         Price: High to Low
@@ -128,33 +134,54 @@ const FilterProducts = () => {
                   </Card>
                ) : (
                   sortedAndFilteredProducts.map((product, index) => (
-                     <Card key={index} className='w-full group p-4'>
-                        <div className='relative'>
-                           <Link className='absolute inset-0 z-10' to={`/products/${product.id}`}>
-                              <span className='sr-only'>View</span>
-                           </Link>
-                           <img
-                              alt={product?.attributes?.title}
-                              className='w-full h-auto mb-4 group-hover:opacity-80 transition-opacity'
-                              height='250'
-                              src={useImage(product?.attributes?.image?.data?.attributes?.url)}
-                              style={{
-                                 aspectRatio: "250/250",
-                                 objectFit: "contain",
-                              }}
-                              width='250'
-                           />
-                           <div className='absolute top-2 right-2 bg-white rounded-full p-2 shadow-md group-hover:opacity-100 opacity-0 transition-opacity'>
-                              <HeartIcon className='w-4 h-4 text-gray-600' />
+                     <Card key={index} className='w-full group p-4 flex flex-col justify-between'>
+                        <div>
+                           <div className='relative'>
+                              <Link className='absolute inset-0 z-10' to={`/products/${product.id}`}>
+                                 <span className='sr-only'>View</span>
+                              </Link>
+                              <img
+                                 alt={product?.attributes?.title}
+                                 className='w-full h-auto mb-4 group-hover:opacity-80 transition-opacity'
+                                 height='250'
+                                 src={useImage(product?.attributes?.image?.data?.attributes?.url)}
+                                 style={{
+                                    aspectRatio: "250/250",
+                                    objectFit: "contain",
+                                 }}
+                                 width='250'
+                              />
+                              <div className='absolute top-2 right-2 bg-white rounded-full p-2 shadow-md group-hover:opacity-100 opacity-0 transition-opacity'>
+                                 <HeartIcon className='w-4 h-4 text-gray-600' />
+                              </div>
                            </div>
+                           <CardTitle className='text-base font-medium group-hover:underline transition-all'>
+                              {product?.attributes?.title}
+                           </CardTitle>
                         </div>
-                        <CardTitle className='text-base font-medium group-hover:underline transition-all'>
-                           {product?.attributes?.title}
-                        </CardTitle>
-                        <CardDescription className='text-gray-600 text-sm'>
-                           {product?.attributes?.categories?.data[0]?.attributes?.name}
-                        </CardDescription>
-                        <div className='mt-2 font-semibold'>${product?.attributes?.price}</div>
+                        <div className='mt-2'>
+                           <CardDescription className='mb-3 text-gray-500 text-sm capitalize'>
+                              {product?.attributes?.categories?.data[0]?.attributes?.name}
+                           </CardDescription>
+                           <div className='flex items-center gap-2'>
+                              {product?.attributes?.rating && (
+                                 <>
+                                    {[...Array(product?.attributes?.rating)].map((_, i) => (
+                                       <StarIcon
+                                          key={i}
+                                          className={`${
+                                             i < product?.attributes?.rating ? "text-primary" : "text-gray-300"
+                                          } w-6 h-6 fill-current`}
+                                       />
+                                    ))}
+                                    {[...Array(5 - product?.attributes?.rating)].map((_, i) => (
+                                       <StarIcon key={i} className='w-6 h-6 fill-current text-gray-300' />
+                                    ))}
+                                 </>
+                              )}
+                           </div>
+                           <div className='mt-2 font-semibold'>${product?.attributes?.price}</div>
+                        </div>
                      </Card>
                   ))
                )}
@@ -205,5 +232,22 @@ function ListOrderedIcon(props) {
       </svg>
    );
 }
-
+function StarIcon(props) {
+   return (
+      <svg
+         {...props}
+         xmlns='http://www.w3.org/2000/svg'
+         width='24'
+         height='24'
+         viewBox='0 0 24 24'
+         fill='none'
+         stroke='currentColor'
+         strokeWidth='2'
+         strokeLinecap='round'
+         strokeLinejoin='round'
+      >
+         <polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2' />
+      </svg>
+   );
+}
 export default FilterProducts;
