@@ -15,7 +15,17 @@ import useImage from "@/hooks/useImage";
 import Loading from "./Loading";
 
 const FilterProducts = () => {
-   const { categories, setSelectedCategory, selectedCategory, products, isLoading } = useContext(ProductContext);
+   const {
+      categories,
+      setSelectedCategory,
+      selectedCategory,
+      products,
+      isLoading,
+      getProductsByRating,
+      selectedRating,
+      setSelectedRating,
+      filteredProducts,
+   } = useContext(ProductContext);
    const [sortOption, setSortOption] = useState(""); // State for sorting option
 
    const handleCategoryClick = (category) => {
@@ -23,6 +33,14 @@ const FilterProducts = () => {
          setSelectedCategory(null);
       } else {
          setSelectedCategory(category);
+      }
+   };
+   // handle products by rating
+   const handleRatingChange = (rating) => {
+      if (selectedRating === rating) {
+         setSelectedRating(null);
+      } else {
+         setSelectedRating(rating);
       }
    };
 
@@ -41,11 +59,11 @@ const FilterProducts = () => {
       }
    };
 
-   const filteredProducts = selectedCategory
-      ? products.filter((product) =>
-           product?.attributes?.categories?.data?.some((cat) => cat?.attributes?.name === selectedCategory)
-        )
-      : products;
+   // const filteredProducts = selectedCategory
+   //    ? products.filter((product) =>
+   //         product?.attributes?.categories?.data?.some((cat) => cat?.attributes?.name === selectedCategory)
+   //      )
+   //    : products;
 
    const sortedAndFilteredProducts = getSortedProducts(filteredProducts);
 
@@ -85,11 +103,16 @@ const FilterProducts = () => {
             <div>
                <h2 className='mb-4 text-xl font-semibold'>Rating</h2>
                <div className='space-y-2'>
-                  {[1, 2, 3, 4, 5].map((rating) => (
-                     <div key={rating} className='flex items-center space-x-2'>
-                        <Checkbox id={`rating-${rating}`} />
+                  {[5, 4, 3, 2, 1].map((rating, index) => (
+                     <div key={index} className='flex items-center space-x-2'>
+                        <Checkbox
+                           id={`rating-${rating}`}
+                           checked={selectedRating === rating}
+                           onChange={() => handleRatingChange(rating)}
+                           onClick={() => handleRatingChange(rating)}
+                        />
                         <label className='text-sm font-medium' htmlFor={`rating-${rating}`}>
-                           {rating} stars
+                           {rating} Stars
                         </label>
                      </div>
                   ))}

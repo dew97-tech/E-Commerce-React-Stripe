@@ -4,10 +4,14 @@ import { toast } from "sonner";
 import { ProductContext } from "../context/ProductContext";
 import EmptyCart from "./EmptyCart";
 import useImage from "@/hooks/useImage";
+import { useAuth } from "@clerk/clerk-react";
+import { useUser } from "@clerk/clerk-react";
 
 const CartDetails = () => {
    const { cart, clearCart, products, filterProductsBySearch, setCart, calculateTotalPrice } =
       useContext(ProductContext);
+   const { userId } = useAuth();
+   const { user } = useUser();
 
    const handleQuantityChange = (productId, newQuantity) => {
       const updatedCart = cart.map((item) => (item.id === productId ? { ...item, quantity: newQuantity } : item));
@@ -25,20 +29,54 @@ const CartDetails = () => {
       filterProductsBySearch(); // Refresh the filtered products
    };
 
-   const handleCheckout = async () => {
-      const response = await fetch("http://localhost:4000/checkout", {
-         method: "POST",
-         headers: {
-            "Content-Type": "application/json",
+   const handleCOD = async () => {
+      const orderData = {
+         items: cart.map((item) => ({
+            imgUrl: item.attributes.image?.data?.attributes?.url,
+            name: item.attributes.title,
+            productId: item.id,
+            quantity: item.quantity,
+            price: item.attributes.price,
+         })),
+         totalPrice: calculateTotalPrice(),
+         paymentMethod: "Cash on Delivery",
+         status: false, // Assuming the initial status is pending and represented by false
+         user: {
+            id: userId,
+            fullName: user?.fullName,
          },
-         body: JSON.stringify(cart),
-      });
+         username: user?.fullName,
+      };
 
-      if (response.ok) {
-         const { url } = await response.json();
-         window.location.href = url;
-      } else {
-         console.error("Checkout failed");
+      try {
+         const response = await fetch("http://localhost:1337/api/orders", {
+            method: "POST",
+            headers: {
+               "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ data: orderData }),
+         });
+
+         if (response.ok) {
+            toast.success("Order placed successfully", {
+               position: "bottom-right",
+               dismissible: true,
+            });
+            clearCart();
+         } else {
+            const errorData = await response.json();
+            console.error("Error placing order:", errorData);
+            toast.error("Failed to place order", {
+               position: "bottom-right",
+               dismissible: true,
+            });
+         }
+      } catch (error) {
+         console.error("Error placing order:", error);
+         toast.error("Failed to place order", {
+            position: "bottom-right",
+            dismissible: true,
+         });
       }
    };
 
@@ -96,17 +134,17 @@ const CartDetails = () => {
                ))}
                <hr className='mt-10 pt-0' />
                <div className='mt-6 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg'>
-                  <div className='flex justify-between gap-2 items-center'>
-                     <h3 className='text-md font-medium text-gray-900 dark:text-white'>
-                        We use Stripe Payment so that your transaction stays safe
-                     </h3>
+                  <div className='flex justify-end gap-2 items-center'>
                      <div className='flex'>
-                        <h3 className='text-md font-medium text-gray-900 dark:text-white'>Total: </h3>
-                        <p className='text-md font-bold text-gray-900 dark:text-white'>${calculateTotalPrice()}</p>
+                        <h3 className='text-xl font-medium text-gray-900 dark:text-white'>Total: </h3>
+                        <p className='text-xl font-bold text-primary dark:text-white'>${calculateTotalPrice()}</p>
                      </div>
                   </div>
                   <div className='mt-6'>
-                     <Button className='w-full text-white text-md py-5' onClick={handleCheckout}>
+                     {/* <Button className='w-full text-white text-md py-5' onClick={handleCheckout}>
+                        Proceed to Checkout
+                     </Button> */}
+                     <Button className='w-full text-white text-md py-5 mt-4' onClick={handleCOD}>
                         Proceed to Checkout
                      </Button>
                   </div>

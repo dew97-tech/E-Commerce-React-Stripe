@@ -13,6 +13,7 @@ export const ProductProvider = ({ children }) => {
    const [selectedCategory, setSelectedCategory] = useState(null);
    const [filteredProducts, setFilteredProducts] = useState([]);
    const [queryProducts, setQueryProducts] = useState("");
+   const [selectedRating, setSelectedRating] = useState(null); // State for selected rating
    const [cart, setCart] = useState([]);
 
    // Fetch all products and categories on component mount
@@ -39,7 +40,7 @@ export const ProductProvider = ({ children }) => {
    }, []);
    useEffect(() => {
       filterProductsByCategoryAndSearch();
-   }, [queryProducts, selectedCategory]);
+   }, [queryProducts, selectedCategory, selectedRating]);
 
    // This function filters the products by category
    const getProductsByCategory = (category) => {
@@ -47,6 +48,12 @@ export const ProductProvider = ({ children }) => {
       return products.filter((product) =>
          product?.attributes?.categories?.data.some((cat) => cat?.attributes?.name === category)
       );
+   };
+
+   // This function filters the products by rating
+   const getProductsByRating = (rating) => {
+      // The filter method is used to create a new array with all products that pass the test implemented by the provided function
+      return products.filter((product) => product?.attributes?.rating === rating);
    };
 
    // This function retrieves a product by its ID
@@ -57,16 +64,20 @@ export const ProductProvider = ({ children }) => {
 
    const filterProductsByCategoryAndSearch = () => {
       let filteredProducts = products;
-      if (selectedCategory || queryProducts) {
+      if (selectedCategory || queryProducts || selectedRating !== null) {
          if (selectedCategory) {
             filteredProducts = getProductsByCategory(selectedCategory);
          }
          if (queryProducts) {
             filteredProducts = filteredProducts.filter((product) =>
-               product.title.toLowerCase().includes(queryProducts.toLowerCase())
+               product?.attributes?.title.toLowerCase().includes(queryProducts.toLowerCase())
             );
          }
+         if (selectedRating !== null) {
+            filteredProducts = filteredProducts.filter((product) => product?.attributes?.rating === selectedRating);
+         }
       }
+
       setFilteredProducts(filteredProducts);
    };
 
@@ -115,6 +126,7 @@ export const ProductProvider = ({ children }) => {
       addToCart,
       clearCart,
       calculateTotalPrice,
+      getProductsByRating,
       // States
       products: filteredProducts ? filteredProducts : filterProductsByCategoryAndSearch,
       categories,
@@ -123,7 +135,9 @@ export const ProductProvider = ({ children }) => {
       filteredProducts,
       cart,
       selectedCategory,
+      selectedRating,
       // State Setters
+      setSelectedRating,
       setSelectedCategory,
       setFilteredProducts,
       setQueryProducts,
