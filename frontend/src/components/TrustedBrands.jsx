@@ -40,27 +40,28 @@ const TrustedBrands = () => {
       <section className='body-font'>
          <div className='container px-5 py-24 mx-auto'>
             <div className='text-center mb-10'>
-               <h2 className='text-3xl font-bold tracking-tighter md:text-4xl/tight'>OUR PARTNERS</h2>
-               <p className='mx-auto max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400'>
+               <h2 className='text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl uppercase p-3'>Our Partners</h2>
+               {/* <p className='mx-auto max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400'>
                   Whatever you need, we have it. We have a wide range of products from different brands. We have the
                   best deals and the best prices.
-               </p>
+               </p> */}
             </div>
             <Carousel
                plugins={[
                   Autoplay({
                      delay: 3000,
+                     stopOnMouseEnter: true,
                   }),
                ]}
                opts={{
                   align: "start",
                   loop: true,
-                  onmouseenter: false,
+                  onmouseenter: true,
                }}
             >
                <CarouselContent>
                   {brands.map((brand, index) => (
-                     <CarouselItem key={brand.id} className='md:basis-1/2 lg:basis-1/3'>
+                     <CarouselItem key={brand.id} className='md:basis-1/2 lg:basis-1/3 sm:basis-1'>
                         {/* Images of Different Brands */}
                         <Card className='h-64 '>
                            <CardContent className='flex items-center justify-center'>
@@ -70,8 +71,8 @@ const TrustedBrands = () => {
                      </CarouselItem>
                   ))}
                </CarouselContent>
-               <CarouselPrevious variant='default' className='text-white' />
-               <CarouselNext variant='default' className='text-white' />
+               <CarouselPrevious />
+               <CarouselNext />
             </Carousel>
          </div>
       </section>

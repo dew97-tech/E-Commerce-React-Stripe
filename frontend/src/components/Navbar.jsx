@@ -28,6 +28,9 @@ const Navbar = () => {
                <Link className='font-semibold hover:text-indigo-700 transition-all duration-300' to='/'>
                   Home
                </Link>
+               <Link className='font-semibold hover:text-indigo-700 transition-all duration-300' to='/featured'>
+                  Featured
+               </Link>
                <Link className='font-semibold hover:text-indigo-700 transition-all duration-300' to='/products'>
                   Shop
                </Link>

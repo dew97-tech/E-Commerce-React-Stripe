@@ -94,12 +94,6 @@ const FilterProducts = () => {
                   ))}
                </div>
             </div>
-            {/* <div className='mb-8'>
-               <h2 className='mb-4 text-xl font-semibold'>Price Range</h2>
-               <div className='flex'>
-                  <Input className='w-full' type='range' />
-               </div>
-            </div> */}
             <div>
                <h2 className='mb-4 text-xl font-semibold'>Rating</h2>
                <div className='space-y-2'>

@@ -10,12 +10,14 @@ import SignInPage from "@/components/Sign-In";
 import Success from "@/components/Success";
 import Error from "@/components/Error";
 import UserProfile from "@/components/Profile";
+import UserProfilePicture from "@/components/UserProfilePicture";
 import Orders from "@/components/Orders";
 import SignUp from "@/components/sign-up";
 import ErrorPage from "@/components/ErrorPage";
 import Contact from "@/components/Contact"; // Make sure the import path is correct
 import App from "@/App";
 import FilterProducts from "@/components/FilterProducts";
+import FeaturedProducts from "@/components/FeaturedProducts";
 
 const router = createBrowserRouter([
    {
@@ -85,12 +87,30 @@ const router = createBrowserRouter([
             <UserProfile />
          </Layout>
       ),
+      children: [
+         {
+            path: "profile",
+            element: <UserProfile />,
+         },
+         {
+            path: "username",
+            element: <UserProfile />,
+         },
+      ],
    },
    {
       path: "/orders",
       element: (
          <Layout>
             <Orders />
+         </Layout>
+      ),
+   },
+   {
+      path: "/featured",
+      element: (
+         <Layout>
+            <FeaturedProducts />
          </Layout>
       ),
    },

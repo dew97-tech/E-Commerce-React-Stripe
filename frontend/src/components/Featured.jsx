@@ -1,68 +1,45 @@
 import React from "react";
+import { useContext } from "react";
+import { ProductContext } from "@/context/ProductContext";
+import Loading from "./Loading";
 
 const Featured = () => {
+   const { filteredProducts, isLoading } = useContext(ProductContext);
+   // Access the filter property of the product context only for the first 3 featured products
+   const featuredProducts = filteredProducts.filter((product) => product.attributes.featured === true).slice(0, 3);
+
+   if (isLoading) {
+      return <Loading />;
+   }
+
    return (
-      <section className='flex items-center justify-center py-12 md:py-24 lg:py-32'>
-         <div className='container grid items-center justify-center gap-4 px-4 text-center md:px-6'>
-            <div className='space-y-3'>
-               <h2 className='text-3xl font-bold tracking-tighter md:text-4xl/tight uppercase'>Featured Products</h2>
-               <p className='mx-auto max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400'>
+      <section className='flex items-center justify-center py-16 md:py-32 lg:py-40  dark:bg-gray-900'>
+         <div className='container grid items-center justify-center gap-6 px-6 text-center md:px-8 lg:px-12'>
+            <div className='space-y-4'>
+               <h2 className='text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl uppercase p-3'>
+                  Featured Products
+               </h2>
+               {/* <p className='mx-auto max-w-2xl text-gray-600 md:text-2xl lg:text-3xl dark:text-gray-300'>
                   Check out our latest featured products.
-               </p>
+               </p> */}
             </div>
-            <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
-               <div className='flex flex-col gap-2'>
-                  <img
-                     alt='Featured Product 1'
-                     className='aspect-square object-cover rounded-lg overflow-hidden'
-                     height='400'
-                     src='https://placehold.co/600x400'
-                     width='400'
-                  />
-                  <div className='flex flex-col gap-1.5'>
-                     <h3 className='font-semibold'>Featured Product 1</h3>
-                     <p className='font-semibold'>$99.99</p>
+            <div className='grid gap-8 md:grid-cols-2 lg:grid-cols-3'>
+               {featuredProducts.map((product) => (
+                  <div
+                     key={product.id}
+                     className='flex flex-col p-6 bg-white rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300 ease-in-out dark:bg-gray-800'
+                  >
+                     <img
+                        className='object-contain object-center w-full h-64 mb-6 rounded-lg dark:bg-gray-700'
+                        src={import.meta.env.VITE_STRAPI_UPLOADS_URL + product?.attributes?.image?.data?.attributes.url}
+                        alt={product?.attributes?.title}
+                     />
+                     <div className='flex items-center justify-between'>
+                        <p className='text-lg font-semibold'>{product?.attributes?.title}</p>
+                        <p className='text-xl font-bold'>£{product?.attributes?.price}</p>
+                     </div>
                   </div>
-               </div>
-               <div className='flex flex-col gap-2'>
-                  <img
-                     alt='Featured Product 2'
-                     className='aspect-square object-cover rounded-lg overflow-hidden'
-                     height='400'
-                     src='https://placehold.co/600x400'
-                     width='400'
-                  />
-                  <div className='flex flex-col gap-1.5'>
-                     <h3 className='font-semibold'>Featured Product 2</h3>
-                     <p className='font-semibold'>$129.99</p>
-                  </div>
-               </div>
-               <div className='flex flex-col gap-2'>
-                  <img
-                     alt='Featured Product 3'
-                     className='aspect-square object-cover rounded-lg overflow-hidden'
-                     height='400'
-                     src='https://placehold.co/600x400'
-                     width='400'
-                  />
-                  <div className='flex flex-col gap-1.5'>
-                     <h3 className='font-semibold'>Featured Product 3</h3>
-                     <p className='font-semibold'>$79.99</p>
-                  </div>
-               </div>
-               <div className='flex flex-col gap-2'>
-                  <img
-                     alt='Featured Product 4'
-                     className='aspect-square object-cover rounded-lg overflow-hidden'
-                     height='400'
-                     src='https://placehold.co/600x400'
-                     width='400'
-                  />
-                  <div className='flex flex-col gap-1.5'>
-                     <h3 className='font-semibold'>Featured Product 4</h3>
-                     <p className='font-semibold'>$149.99</p>
-                  </div>
-               </div>
+               ))}
             </div>
          </div>
       </section>

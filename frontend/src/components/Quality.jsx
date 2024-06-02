@@ -65,7 +65,7 @@ const Quality = () => {
    }
    return (
       <div className='flex flex-col items-center justify-center space-y-12 py-10'>
-         <h2 className='text-3xl font-bold tracking-tighter md:text-4xl/tight uppercase'>Shop with Confidence</h2>
+         <h2 className='text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl uppercase'>Shop with Confidence</h2>
 
          <div className='grid gap-20 md:grid-cols-3 lg:grid-cols-3'>
             <div className='flex flex-col gap-4 items-center border rounded-xl p-5 shadow-md'>
