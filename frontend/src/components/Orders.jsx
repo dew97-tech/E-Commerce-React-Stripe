@@ -1,40 +1,35 @@
+import useSWR from "swr";
 import React, { useEffect, useState } from "react";
 import { CardTitle, CardHeader, CardContent, Card, CardFooter } from "@/components/ui/card";
 import { useAuth } from "@clerk/clerk-react";
 import Loading from "./Loading";
-
+import SignInPage from "./Sign-In";
+const fetcher = (url) => fetch(url).then((res) => res.json());
 const Orders = () => {
    const [orders, setOrders] = useState([]);
-   const [loading, setLoading] = useState(false);
+   const [loading, setLoading] = useState(true);
    const { userId } = useAuth(); // Assuming you have user data from Clerk
-
+   const { data, error } = useSWR(
+      `${import.meta.env.VITE_STRAPI_API_URL}/orders?filters[user][$contains]=${userId}`,
+      fetcher
+   );
    useEffect(() => {
-      const fetchOrders = async () => {
-         setLoading(true);
-         try {
-            const response = await fetch(`http://localhost:1337/api/orders?filters[user][$contains]=${userId}`);
-            if (!response.ok) {
-               throw new Error("Network response was not ok");
-            }
-            const data = await response.json();
-            setOrders(data.data);
-         } catch (error) {
-            console.error("Error fetching orders:", error);
-         } finally {
-            setLoading(false);
-         }
-      };
-
-      if (userId) {
-         fetchOrders();
-         console.log(userId);
+      if (data) {
+         setOrders(data.data);
+         setLoading(false);
       }
-   }, [userId]);
+   }, [data]);
 
    if (loading) {
       return <Loading />;
    }
+   if (error) {
+      return <div>Error loading orders</div>;
+   }
 
+   if (userId === null) {
+      return <SignInPage />;
+   }
    return (
       <>
          <section className='container mx-auto px-4 md:px-6 py-8'>

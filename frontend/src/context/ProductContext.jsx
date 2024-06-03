@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
-
+import useSWR, { mutate } from "swr";
 // Create context
 export const ProductContext = createContext();
 
@@ -16,28 +16,33 @@ export const ProductProvider = ({ children }) => {
    const [selectedRating, setSelectedRating] = useState(null); // State for selected rating
    const [cart, setCart] = useState([]);
 
-   // Fetch all products and categories on component mount
+   // Use SWR to fetch products and categories
+   const { data: productsData, error: productsError } = useSWR(
+      `${import.meta.env.VITE_STRAPI_API_URL}/products?populate=*`,
+      fetcher
+   );
+   const { data: categoriesData, error: categoriesError } = useSWR(
+      `${import.meta.env.VITE_STRAPI_API_URL}/categories?populate=*`,
+      fetcher
+   );
+
+   // Helper function to fetch data
+   async function fetcher(url) {
+      const res = await fetch(url);
+      const { data } = await res.json();
+      if (!res.ok) throw new Error("An error occurred while fetching the data.");
+      return data;
+   }
+
    useEffect(() => {
-      async function fetchData() {
-         try {
-            const productsRes = await fetch("http://localhost:1337/api/products?populate=*");
-            const categoriesRes = await fetch("http://localhost:1337/api/categories?populate=*");
-
-            const { data: productsData, loading } = await productsRes.json();
-            const { data: categoriesData } = await categoriesRes.json();
-            // console.log("productsData", productsData);
-            // console.log("categoriesData", categoriesData);
-            setProducts(productsData);
-            setFilteredProducts(productsData);
-            setCategories(categoriesData);
-            setIsLoading(loading);
-         } catch (error) {
-            console.error("Error fetching data:", error);
-         }
+      if (productsData && !productsError) {
+         setProducts(productsData);
+         setFilteredProducts(productsData);
+         setCategories(categoriesData);
+         setIsLoading(false);
       }
-
-      fetchData();
-   }, []);
+      console.log("productsData", productsData);
+   }, [productsData, categoriesData]);
    useEffect(() => {
       filterProductsByCategoryAndSearch();
    }, [queryProducts, selectedCategory, selectedRating]);

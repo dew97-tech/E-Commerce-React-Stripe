@@ -49,7 +49,7 @@ const CartDetails = () => {
       };
 
       try {
-         const response = await fetch("http://localhost:1337/api/orders", {
+         const response = await fetch(`${import.meta.env.VITE_STRAPI_API_URL}/orders`, {
             method: "POST",
             headers: {
                "Content-Type": "application/json",

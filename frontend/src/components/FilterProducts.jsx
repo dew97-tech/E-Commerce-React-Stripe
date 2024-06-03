@@ -76,7 +76,7 @@ const FilterProducts = () => {
             <div className='mb-8'>
                <h2 className='mb-4 text-xl font-semibold'>Categories</h2>
                <div className='space-y-2'>
-                  {categories.map((category, index) => (
+                  {categories?.map((category, index) => (
                      <div key={category?.id} className='flex items-center space-x-2'>
                         <Checkbox
                            id={`category-${category?.attributes?.name}`}
@@ -143,14 +143,14 @@ const FilterProducts = () => {
                </DropdownMenu>
             </div>
             <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
-               {sortedAndFilteredProducts.length === 0 ? (
+               {sortedAndFilteredProducts?.length === 0 ? (
                   <Card className='w-full group flex flex-col justify-center items-center h-64'>
                      <div className='text-center text-xl font-semibold'>
                         No products are available currently under this category. Feel free to browse other products.
                      </div>
                   </Card>
                ) : (
-                  sortedAndFilteredProducts.map((product, index) => (
+                  sortedAndFilteredProducts?.map((product, index) => (
                      <Card key={index} className='w-full group p-4 flex flex-col justify-between'>
                         <div>
                            <div className='relative'>

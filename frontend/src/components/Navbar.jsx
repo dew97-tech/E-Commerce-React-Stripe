@@ -89,11 +89,9 @@ const Navbar = () => {
                                     Profile
                                  </Link>
                               </li>
-                              <div className='mr-auto'>
-                                 <li>
-                                    <SignOutButton signOutOptions={sessionId} />
-                                 </li>
-                              </div>
+                              <li>
+                                 <SignOutButton signOutOptions={sessionId} />
+                              </li>
                            </ul>
                         </div>
                      </div>
